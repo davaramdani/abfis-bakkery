@@ -1,0 +1,18 @@
+<div class="admin-form-grid">
+    <section class="admin-panel admin-form-section" aria-labelledby="product-details-title">
+        <div class="admin-form-section-heading"><span class="eyebrow text-rust">01</span><div><h2 id="product-details-title" class="display text-3xl">Tentang produk</h2><p class="mt-2 text-xs leading-6 text-muted">Nama dan deskripsi membantu pelanggan memilih.</p></div></div>
+        <div class="space-y-6">
+            <div><label for="name" class="field-label">Nama produk <span class="text-rust">*</span></label><input type="text" id="name" name="name" value="{{ old('name', $product?->name) }}" maxlength="30" required class="field-input" placeholder="Contoh: Roti Cokelat" @error('name') aria-invalid="true" @enderror></div>
+            <div><label for="description" class="field-label">Deskripsi <span class="font-normal text-muted">(opsional)</span></label><textarea id="description" name="description" rows="5" class="field-input resize-y" placeholder="Ceritakan rasa, isian, ukuran, atau bahan produk.">{{ old('description', $product?->description) }}</textarea></div>
+            <div class="grid gap-6 sm:grid-cols-2"><div><label for="price" class="field-label">Harga satuan (Rp) <span class="text-rust">*</span></label><input type="number" id="price" name="price" min="0" step="1" value="{{ old('price', $product?->price) }}" required class="field-input tabular-nums" placeholder="15000" @error('price') aria-invalid="true" @enderror></div><div><label for="stock" class="field-label">Stok tersedia <span class="text-rust">*</span></label><input type="number" id="stock" name="stock" min="0" step="1" value="{{ old('stock', $product?->stock ?? 0) }}" required class="field-input tabular-nums" @error('stock') aria-invalid="true" @enderror><p class="mt-2 text-xs leading-5 text-muted">Stok 0 menyembunyikan produk dari katalog pelanggan.</p></div></div>
+        </div>
+    </section>
+    <section class="admin-panel admin-form-section" aria-labelledby="product-photo-title">
+        <div class="admin-form-section-heading"><span class="eyebrow text-rust">02</span><div><h2 id="product-photo-title" class="display text-3xl">Foto produk</h2><p class="mt-2 text-xs leading-6 text-muted">Tampilkan produk dengan jelas dan pencahayaan alami.</p></div></div>
+        <div class="admin-upload-preview"><img id="product-image-preview" src="{{ $product?->image ? asset('storage/products/' . $product->image) : '' }}" alt="Pratinjau foto produk" @if(!$product?->image) hidden @endif><div data-preview-placeholder @if($product?->image) hidden @endif><x-icon name="image" class="size-10" /><p class="mt-3 text-xs">Foto produk akan muncul di sini</p></div></div>
+        <label for="image" class="field-label mt-5">{{ $product ? 'Ganti foto' : 'Pilih foto' }} @if($product)<span class="font-normal text-muted">(opsional)</span>@else<span class="text-rust">*</span>@endif</label>
+        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png" class="field-input admin-file-input" data-image-preview="product-image-preview" aria-describedby="image-help" @required(!$product)>
+        <p id="image-help" class="mt-3 text-xs leading-6 text-muted">JPG atau PNG, maksimal 2 MB.{{ $product ? ' Biarkan kosong untuk memakai foto saat ini.' : '' }}</p>
+    </section>
+</div>
+<div class="admin-form-actions"><p class="text-xs text-muted"><span class="text-rust">*</span> Wajib diisi</p><div class="flex gap-3"><a href="{{ route('admin.products.index') }}" class="button-outline">Batal</a><button type="submit" class="button-primary">{{ $product ? 'Simpan perubahan' : 'Simpan produk' }}<x-icon name="check" class="size-4" /></button></div></div>

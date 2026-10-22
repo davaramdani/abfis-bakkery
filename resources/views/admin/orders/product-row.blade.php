@@ -1,0 +1,6 @@
+<div class="admin-order-row" data-order-row>
+    <div><label for="product-{{ $rowIndex }}" class="field-label text-xs">Produk</label><select id="product-{{ $rowIndex }}" name="products[{{ $rowIndex }}][id]" required class="field-input" data-row-product><option value="">Pilih produk</option>@foreach($products as $product)<option value="{{ $product->id }}" data-price="{{ $product->price }}" data-stock="{{ $product->stock }}" @selected((string)$selectedProduct === (string)$product->id) @disabled($product->stock <= 0)>{{ $product->name }} · Rp {{ number_format($product->price, 0, ',', '.') }} · {{ $product->stock }} tersedia</option>@endforeach</select></div>
+    <div><label for="quantity-{{ $rowIndex }}" class="field-label text-xs">Jumlah</label><input id="quantity-{{ $rowIndex }}" type="number" name="products[{{ $rowIndex }}][quantity]" value="{{ $selectedQuantity }}" min="1" step="1" required class="field-input" data-row-quantity></div>
+    <button type="button" class="admin-icon-button mb-1" data-remove-order-row aria-label="Hapus baris produk"><x-icon name="trash" class="size-4" /></button>
+    <output class="text-xs text-muted sm:col-span-3" data-row-subtotal>Rp 0</output>
+</div>
